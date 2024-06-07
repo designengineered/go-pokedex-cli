@@ -9,22 +9,64 @@ import (
 
 func startREPL() {
 	reader := bufio.NewScanner(os.Stdin)
-	fmt.Print("Pokedex >")
+	fmt.Println("Welcome to Cello's Pokedex")
+	fmt.Print(" Pokedex > ")
 
 	// reading input
 	for reader.Scan() {
 		input := reader.Text()
-		//handling input commands
-		fmt.Println("Pokedex >", input)
-
-		if input == "exit" {
-			break
+		// get the cleaned input array
+		cleaned := cleanInput(input)
+		// handle empty return from user
+		if len(cleaned) == 0 {
+			fmt.Println("Empty input. Please Try Again.")
+			fmt.Println("")
+			fmt.Print(" Pokedex > ")
+			continue
 		}
-		fmt.Print("Pokedex > ")
-	}
+		// set first word as command trigger
+		commandName := cleaned[0]
 
-	if err := reader.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "error:", err)
+		// switching to using a map of commands
+
+		availableCommands := getCommands()
+		// is current command in this list?
+		command, ok := availableCommands[commandName]
+		// default non-command behavior
+		if !ok {
+			fmt.Println(commandName, "is not a valid command. Try again.")
+			fmt.Println("")
+			fmt.Print(" Pokedex > ")
+			continue
+		}
+		// handle possible command errors
+		err := command.callback()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Print(" Pokedex > ")
+	}
+}
+
+type cliCommand struct {
+	name        string
+	description string
+	callback    func() error
+}
+
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
+		},
 	}
 }
 
