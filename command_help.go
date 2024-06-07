@@ -1,8 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
-func commandHelp() error {
+func commandHelp(cfg *config) error {
 	fmt.Println("")
 	fmt.Println("Hey! This is the Pokedex help menu.")
 	fmt.Println("")
@@ -13,7 +16,7 @@ func commandHelp() error {
 		fmt.Printf("%s: %s.", cmd.name, cmd.description)
 		fmt.Println("")
 		fmt.Println("------------------------------------")
+		time.Sleep(time.Second / 4)
 	}
 	return nil
 }
-

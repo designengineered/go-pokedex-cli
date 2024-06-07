@@ -5,11 +5,24 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
-func startREPL() {
+func startREPL(cfg *config) {
 	reader := bufio.NewScanner(os.Stdin)
+	fmt.Println(".")
+	time.Sleep(time.Second / 4)
+	fmt.Println("..")
+	time.Sleep(time.Second / 4)
+	fmt.Println("...")
+	time.Sleep(time.Second / 2)
+
+	fmt.Println("")
+	time.Sleep(time.Second / 4)
 	fmt.Println("Welcome to Cello's Pokedex")
+	time.Sleep(time.Second / 4)
+	fmt.Println("")
+	time.Sleep(time.Second / 2)
 	fmt.Print(" Pokedex > ")
 
 	// reading input
@@ -19,7 +32,10 @@ func startREPL() {
 		cleaned := cleanInput(input)
 		// handle empty return from user
 		if len(cleaned) == 0 {
+			fmt.Println("")
+			time.Sleep(time.Second / 4)
 			fmt.Println("Empty input. Please Try Again.")
+			time.Sleep(time.Second / 4)
 			fmt.Println("")
 			fmt.Print(" Pokedex > ")
 			continue
@@ -34,25 +50,31 @@ func startREPL() {
 		command, ok := availableCommands[commandName]
 		// default non-command behavior
 		if !ok {
+			fmt.Println("")
+			time.Sleep(time.Second / 4)
 			fmt.Println(commandName, "is not a valid command. Try again.")
+			time.Sleep(time.Second / 4)
 			fmt.Println("")
 			fmt.Print(" Pokedex > ")
 			continue
 		}
 		// handle possible command errors
-		err := command.callback()
+		err := command.callback(cfg)
 		if err != nil {
 			fmt.Println(err)
 		}
 
+		time.Sleep(time.Second / 4)
+		fmt.Println("")
 		fmt.Print(" Pokedex > ")
+
 	}
 }
 
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -61,6 +83,16 @@ func getCommands() map[string]cliCommand {
 			name:        "help",
 			description: "Displays a help message",
 			callback:    commandHelp,
+		},
+		"map": {
+			name:        "map",
+			description: "Displays 20 location areas to navigate to, can be run multiple times to display more locations",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Goes back to the previous map area",
+			callback:    commandMapB,
 		},
 		"exit": {
 			name:        "exit",
