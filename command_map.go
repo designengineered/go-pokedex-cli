@@ -13,8 +13,9 @@ func commandMap(cfg *config) error {
 	}
 	fmt.Println("")
 	if cfg.pageCount == 0 {
-		fmt.Printf("Location Areas(1):")
-		fmt.Println("")
+		fmt.Println("---------------------------------------------------------")
+		fmt.Printf("Location Areas(1):\n")
+		fmt.Println("---------------------------------------------------------")
 		time.Sleep(time.Second / 4)
 	}
 	if cfg.pageCount != 0 {
@@ -25,6 +26,7 @@ func commandMap(cfg *config) error {
 	for _, result := range resp.Results {
 		fmt.Printf("- %s\n", result.Name)
 	}
+	fmt.Println("---------------------------------------------------------")
 	// if there is a next area, update next and prev pointers
 	cfg.nextAreaURL = resp.Next
 	if cfg.nextAreaURL == nil {

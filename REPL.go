@@ -86,7 +86,7 @@ func getCommands() map[string]cliCommand {
 		},
 		"map": {
 			name:        "map",
-			description: "Displays 20 location areas to navigate to, can be run multiple times to display more locations",
+			description: "Displays a map area with 20 locations, \nrun again to display next map area",
 			callback:    commandMap,
 		},
 		"mapb": {
