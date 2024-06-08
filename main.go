@@ -6,6 +6,7 @@ type config struct {
 	pokeapiClient pokeapi.Client
 	nextAreaURL   *string
 	prevAreaURL   *string
+	pageCount     int
 }
 
 func main() {
@@ -13,6 +14,7 @@ func main() {
 		pokeapiClient: pokeapi.NewClient(),
 		nextAreaURL:   nil,
 		prevAreaURL:   nil,
+		pageCount:     0,
 	}
 
 	startREPL(&cfg)
