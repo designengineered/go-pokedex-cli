@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
 )
 
 func commandMap(cfg *config) error {
 	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.nextAreaURL)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	fmt.Println("")
 	if cfg.pageCount == 0 {

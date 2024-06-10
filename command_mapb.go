@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
 )
 
@@ -12,7 +11,7 @@ func commandMapB(cfg *config) error {
 		return fmt.Errorf("no previous area to go back to")
 	}
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	fmt.Println("")
 	if cfg.pageCount == 0 {

@@ -1,6 +1,10 @@
 package main
 
-import "github.com/laztaxon/go-pokedex-cli/internal/pokeapi"
+import (
+	"time"
+
+	"github.com/laztaxon/go-pokedex-cli/internal/pokeapi"
+)
 
 type config struct {
 	pokeapiClient pokeapi.Client
@@ -11,7 +15,7 @@ type config struct {
 
 func main() {
 	cfg := config{
-		pokeapiClient: pokeapi.NewClient(),
+		pokeapiClient: pokeapi.NewClient(time.Hour),
 		nextAreaURL:   nil,
 		prevAreaURL:   nil,
 		pageCount:     0,
