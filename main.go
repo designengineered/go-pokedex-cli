@@ -15,7 +15,7 @@ type config struct {
 
 func main() {
 	cfg := config{
-		pokeapiClient: pokeapi.NewClient(time.Hour),
+		pokeapiClient: pokeapi.NewClient(30 * time.Minute),
 		nextAreaURL:   nil,
 		prevAreaURL:   nil,
 		pageCount:     0,

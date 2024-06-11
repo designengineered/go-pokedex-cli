@@ -43,8 +43,9 @@ func (c *Cache) Reap(interval time.Duration) {
 }
 
 func (c *Cache) ReapLoop(interval time.Duration) {
-	// start a ti
+	// start a ticker
 	ticker := time.NewTicker(interval)
+
 	for range ticker.C {
 		c.Reap(interval)
 	}
