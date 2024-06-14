@@ -1,3 +1,4 @@
 package pokeapi
 
-type 
+type location struct {
+}
