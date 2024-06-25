@@ -42,6 +42,8 @@ func startREPL(cfg *config) {
 		}
 		// set first word as command trigger
 		commandName := cleaned[0]
+		// set the rest of the words as the command parameters
+		commandParams := cleaned[1:]
 
 		// switching to using a map of commands
 
@@ -57,6 +59,13 @@ func startREPL(cfg *config) {
 			fmt.Println("")
 			fmt.Print(" Pokedex > ")
 			continue
+		}
+		// if there are parameters, pass them to the command
+		if len(commandParams) > 0 {
+			err := command.callback(cfg, commandParams)
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 		// handle possible command errors
 		err := command.callback(cfg)
