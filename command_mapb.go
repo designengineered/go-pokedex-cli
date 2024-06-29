@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func commandMapB(cfg *config) error {
+func commandMapB(cfg *config, args []string) error {
 	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.prevAreaURL)
 	if cfg.prevAreaURL == nil {
 		return fmt.Errorf("no previous area to go back to")

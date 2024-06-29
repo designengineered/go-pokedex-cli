@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func commandHelp(cfg *config) error {
+func commandHelp(cfg *config, args []string) error {
 	fmt.Println("")
 	fmt.Println("Hey! This is the Pokedex help menu.")
 	fmt.Println("")

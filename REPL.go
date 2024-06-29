@@ -10,19 +10,6 @@ import (
 
 func startREPL(cfg *config) {
 	reader := bufio.NewScanner(os.Stdin)
-	fmt.Println(".")
-	time.Sleep(time.Second / 4)
-	fmt.Println("..")
-	time.Sleep(time.Second / 4)
-	fmt.Println("...")
-	time.Sleep(time.Second / 2)
-
-	fmt.Println("")
-	time.Sleep(time.Second / 4)
-	fmt.Println("Welcome to Cello's Pokedex")
-	time.Sleep(time.Second / 4)
-	fmt.Println("")
-	time.Sleep(time.Second / 2)
 	fmt.Print(" Pokedex > ")
 
 	// reading input
@@ -32,43 +19,25 @@ func startREPL(cfg *config) {
 		cleaned := cleanInput(input)
 		// handle empty return from user
 		if len(cleaned) == 0 {
-			fmt.Println("")
-			time.Sleep(time.Second / 4)
-			fmt.Println("Empty input. Please Try Again.")
-			time.Sleep(time.Second / 4)
-			fmt.Println("")
+			fmt.Println("\nEmpty input. Please Try Again.\n")
 			fmt.Print(" Pokedex > ")
 			continue
 		}
-		// set first word as command trigger
+		// command & arg logic
 		commandName := cleaned[0]
-		// set the rest of the words as the command parameters
-		commandParams := cleaned[1:]
-
-		// switching to using a map of commands
+		args := cleaned[1:]
 
 		availableCommands := getCommands()
 		// is current command in this list?
 		command, ok := availableCommands[commandName]
 		// default non-command behavior
 		if !ok {
-			fmt.Println("")
-			time.Sleep(time.Second / 4)
-			fmt.Println(commandName, "is not a valid command. Try again.")
-			time.Sleep(time.Second / 4)
-			fmt.Println("")
-			fmt.Print(" Pokedex > ")
+			fmt.Printf("\n%s is not a valid command. Try again.\n\n", commandName)
+			fmt.Print(" Pokedex > ")
 			continue
 		}
-		// if there are parameters, pass them to the command
-		if len(commandParams) > 0 {
-			err := command.callback(cfg, commandParams)
-			if err != nil {
-				fmt.Println(err)
-			}
-		}
-		// handle possible command errors
-		err := command.callback(cfg)
+		// pass config and args to the command function
+		err := command.callback(cfg, args)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -83,7 +52,7 @@ func startREPL(cfg *config) {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(cfg *config, args []string) error
 }
 
 func getCommands() map[string]cliCommand {
