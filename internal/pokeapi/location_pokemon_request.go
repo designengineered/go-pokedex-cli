@@ -10,8 +10,18 @@ import (
 func (c *Client) ListLocationPokemon(locationArea string) (AreaPokemonResp, error) {
 	endpoint := "location-area/" + locationArea
 	fullURL := baseURL + endpoint
-
 	var areaPokemonResp AreaPokemonResp
+
+	//check cache first
+	cache, found := c.cache.Get(fullURL)
+	if found {
+		err := json.Unmarshal(cache, &areaPokemonResp)
+		if err != nil {
+			return areaPokemonResp, err
+		}
+		return areaPokemonResp, nil
+	}
+	//if not found in cache, make request
 
 	req, err := http.NewRequest("GET", fullURL, nil)
 
@@ -36,6 +46,9 @@ func (c *Client) ListLocationPokemon(locationArea string) (AreaPokemonResp, erro
 	if err != nil {
 		return areaPokemonResp, err
 	}
+
+	//add to cache
+	c.cache.Add(fullURL, data)
 
 	return areaPokemonResp, nil
 }
