@@ -2,13 +2,21 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"strings"
+	// "time"
 )
 
 func commandExplore(cfg *config, args []string) error {
-	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.nextAreaURL)
-	if err != nil {
-		return err
+	if len(args) == 0 {
+		return fmt.Errorf("please provide a location area")
 	}
+	// support mulitple unhyphenated words
+	areaName := strings.Join(args, "-")
+
+	fmt.Printf("Exploring %s\n", areaName)
+	// resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.nextAreaURL, areaName)
+	// if err != nil {
+	// 	return err
+	// }
 	return nil
 }

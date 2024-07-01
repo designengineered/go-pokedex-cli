@@ -1,8 +1,8 @@
 package pokeapi
 
 import (
-	"encoding/json"
-	"fmt"
-	"io"
-	"net/http"
+// "encoding/json"
+// "fmt"
+// "io"
+// "net/http"
 )
